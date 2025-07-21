@@ -1,8 +1,12 @@
 # stBKLM: Bayesian Kernelized Low-rank Modeling (BKLM) for spatiotemporal data
 This repository contains implementations of Bayesian kernelized (Gaussian process regularized) low-rank models for multidimensional spatiotemporal data.
 
+- [BKTF: Bayesian Kernelized Tensor Factorization](#bkmfbktf-bayesian-kernelized-matrixtensor-factorization)
+- [BKTR: Bayesian Kernelized Tensor Regression](#bktr-bayesian-kernelized-tensor-regression)
+- [BCKL: Bayesian Complementary Kernelized Learning](#bckl-bayesian-complementary-kernelized-learning)
+
 ## [BKMF/BKTF: Bayesian Kernelized Matrix/Tensor Factorization](./BKTF)
-[paper](https://ieeexplore.ieee.org/document/9745749) [pdf](./BKTF/Bayesian_Kernelized_Matrix_Factorization_for_Spatiotemporal_Traffic_Data_Imputation_and_Kriging_IEEE.pdf)
+[[paper](https://ieeexplore.ieee.org/document/9745749)]
 
 #### Abstract
 
@@ -22,7 +26,7 @@ Missingness and corruption are common problems for real-world traffic data. How 
 ```
 
 ## [BKTR: Bayesian Kernelized Tensor Regression](./BKTR)
-[arXiv](https://arxiv.org/abs/2109.00046) [paper](https://doi.org/10.1214/24-BA1428) [pdf](./BKTR/BA1428_Scalable_Spatiotemporally_Varying_Coefficient_Modeling_with_Bayesian_Kernelized_Tensor_Regression.pdf) [package](https://cran.r-project.org/package=BKTR)
+[[arXiv](https://arxiv.org/abs/2109.00046)] [[paper](https://doi.org/10.1214/24-BA1428)] [[package](https://cran.r-project.org/package=BKTR)]
 
 #### Abstract
 
@@ -42,7 +46,11 @@ As a regression technique in spatial statistics, the spatiotemporally varying co
 ```
 
 ## BCKL: Bayesian Complementary Kernelized Learning
-[arXiv](https://arxiv.org/abs/2208.09978)
+[[arXiv](https://arxiv.org/abs/2208.09978)]
+
+#### Abstract
+
+Probabilistic modeling of multidimensional spatiotemporal data is critical to many real-world applications. As real-world spatiotemporal data often exhibits complex dependencies that are nonstationary and nonseparable, developing effective and computationally efficient statistical models to accommodate nonstationary/nonseparable processes containing both long-range and short-scale variations becomes a challenging task, in particular for large-scale datasets with various corruption/missing structures. In this paper, we propose a new statistical framework—Bayesian Complementary Kernelized Learning (BCKL)—to achieve scalable probabilistic modeling for multidimensional spatiotemporal data. To effectively characterize complex dependencies, BCKL integrates two complementary approaches—kernelized low-rank tensor factorization and short-range spatiotemporal Gaussian Processes. Specifically, we use a multi-linear low-rank factorization component to capture the global/long-range correlations in the data and introduce an additive short-scale GP based on compactly supported kernel functions to characterize the remaining local variabilities. We develop an efficient Markov chain Monte Carlo (MCMC) algorithm for model inference and evaluate the proposed BCKL framework on both synthetic and real-world spatiotemporal datasets. Our experiment results show that BCKL offers superior performance in providing accurate posterior mean and high-quality uncertainty estimates, confirming the importance of both global and local components in modeling spatiotemporal data.
 
 ```
 @article{lei2022bckl,
