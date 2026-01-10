@@ -175,8 +175,8 @@ def BKMF(I, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges,
         
         tau[it + 1] = sample_tau(Isubmean, Y_est, mask_matrix[0], num_obser, a0, b0)
         
-        if it > burn_iter:
-            st_it = it - burn_iter - 1
+        if it >= burn_iter:
+            st_it = it - burn_iter
             for d in range(D):
                 G_save[d][:, :, st_it] = G[d]
             Y_est_sum2 = Y_est_sum2 + Y_est
@@ -200,7 +200,7 @@ def BKMF(I, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges,
         uu = solve_triangular(cholLV.T, Hy[1], lower=True)
         likeli_KV = 0.5 * (tau[it + 1] ** 2) * (uu.T @ uu).item() - np.sum(np.log(np.diag(cholLV))) + 0.5 * R * np.sum(np.log(eigvalKv))
         
-    return G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2
+    return G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2/pos_iter
 
 
 def BKMF_sedata():
@@ -233,12 +233,12 @@ def BKMF_sedata():
     pos_iter = 400
     
     start = time.time()
-    G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2 = BKMF(
+    G, G_save, hyper_K, tau, mae, rmse, Y_est_ = BKMF(
         I, mask_matrix, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, A, d_Matern, a0, b0, R, burn_iter, pos_iter, start)
     
-    return G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2
+    return G, G_save, hyper_K, tau, mae, rmse, Y_est_
 
 from scipy.io import loadmat
 import time
 if __name__ == '__main__':
-    G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2 = BKMF_sedata()
+    G, G_save, hyper_K, tau, mae, rmse, Y_est_ = BKMF_sedata()
