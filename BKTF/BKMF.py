@@ -199,7 +199,7 @@ def BKMF(I, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges,
         uu = solve_triangular(cholLV.T, Hy[1], lower=True)
         likeli_KV = 0.5 * (tau[it + 1] ** 2) * (uu.T @ uu).item() - np.sum(np.log(np.diag(cholLV))) + 0.5 * R * np.sum(np.log(eigvalKv))
         
-    return G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2/pos_iter
+    return G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2/pos_iter + np.mean(train_matrix)
 
 
 def BKMF_sedata():
