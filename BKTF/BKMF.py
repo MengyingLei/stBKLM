@@ -203,9 +203,7 @@ def BKMF(I, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges,
     return G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2
 
 
-from scipy.io import loadmat
-import time
-if __name__ == '__main__':
+def BKMF_sedata():
     seedr = 6
     np.random.seed(seedr)
     A = loadmat('../data/traffic/seattle/seattle_adj.mat')['A']
@@ -231,9 +229,16 @@ if __name__ == '__main__':
     a0 = 1e-6
     b0 = 1e-6
     R = 10
-    burn_iter = 10
-    pos_iter = 10
+    burn_iter = 600
+    pos_iter = 400
     
     start = time.time()
     G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2 = BKMF(
         I, mask_matrix, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, A, d_Matern, a0, b0, R, burn_iter, pos_iter, start)
+    
+    return G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2
+
+from scipy.io import loadmat
+import time
+if __name__ == '__main__':
+    G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2 = BKMF_sedata()
