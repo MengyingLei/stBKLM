@@ -1,4 +1,4 @@
-# stBKLM: Bayesian Kernelized Low-rank Modeling (BKLM) for <ins>s</ins>pa<ins>t</ins>iotemporal data
+# stBKLM: Bayesian Kernelized Low-rank Modeling (BKLM) for <ins>s</ins>patio<ins>t</ins>emporal data
 This repository contains implementations of Bayesian kernelized (Gaussian process regularized) low-rank models for multidimensional spatiotemporal data.
 
 - [BKTF: Bayesian Kernelized Tensor Factorization](#bkmfbktf-bayesian-kernelized-matrixtensor-factorization)
