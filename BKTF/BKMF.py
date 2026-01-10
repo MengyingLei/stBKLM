@@ -16,7 +16,7 @@ def cov_matern(d, loghyper, x):
     return sf2 * m(np.sqrt(d * dist_sq))
 
 def RL_precision(logbeta, A):
-    beta = np.exp(2 * logbeta)    
+    beta = np.exp(logbeta)    
     A = np.asarray(A, dtype=float)
     n = A.shape[0]
     A = A - np.eye(n)
@@ -39,7 +39,6 @@ def compute_likeli_term(invK, R, tau, HH, Hy):
     Lambda = (tau * HH + invSigma).toarray()
     cholL = cholesky(Lambda)
     uu = solve_triangular(cholL.T, Hy, lower=True)
-    # likeli_temp = 0.5 * (tau ** 2) * float(uu.T @ uu) - np.sum(np.log(np.diag(cholL)))
     likeli_temp = 0.5 * (tau ** 2) * (uu.T @ uu).item() - np.sum(np.log(np.diag(cholL)))
     return invSigma, cholL, likeli_temp
 
