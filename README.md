@@ -6,7 +6,7 @@ This repository contains implementations of Bayesian kernelized (Gaussian proces
 - [BCKL: Bayesian Complementary Kernelized Learning](#bckl-bayesian-complementary-kernelized-learning)
 
 ## [BKMF/BKTF: Bayesian Kernelized Matrix/Tensor Factorization](./BKTF)
-[[paper](https://ieeexplore.ieee.org/document/9745749)] [[database](./BKTF)]
+[[paper](https://ieeexplore.ieee.org/document/9745749)] [[codebase](./BKTF)]
 
 #### Abstract
 
