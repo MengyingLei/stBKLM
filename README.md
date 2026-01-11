@@ -8,7 +8,7 @@ This repository contains implementations of Bayesian kernelized (Gaussian proces
 ## [BKMF/BKTF: Bayesian Kernelized Matrix/Tensor Factorization](./BKTF)
 [[paper](https://ieeexplore.ieee.org/document/9745749)] [[codebase](./BKTF)]
 <p align="center">
-<img src="./BKTF/image/hyper-imputation-SeData-marginal.png" style="width: 50%"><br>
+<img src="./BKTF/image/hyper_SeData_imputation.png" style="width: 50%"><br>
 <em>Trace plots and probability distributions of learned kernel hyperparameters for SeData imputation.</em>
 </p>
 

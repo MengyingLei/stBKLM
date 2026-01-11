@@ -1,7 +1,7 @@
 # BKMF/BKTF: Bayesian Kernelized Matrix/Tensor Factorization
 [[paper](https://ieeexplore.ieee.org/document/9745749)]
 <p align="center">
-<img src="./image/hyper-imputation-SeData-marginal.png" style="width: 50%"><br>
+<img src="./image/hyper_SeData_imputation.png" style="width: 50%"><br>
 <em>Trace plots and probability distributions of learned kernel hyperparameters for SeData imputation.</em>
 </p>
 
