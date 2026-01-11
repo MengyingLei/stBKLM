@@ -160,10 +160,10 @@ def BKMF(I, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges,
         hyper_K[it+1, 0], invKU, cholLU, cholLu, likeli_KU = hyperU_RL_marginal(
             hyper_K[it, 0], ranges[0], likeli_KU, tau[it], HH[0], Hy[0], min_hp[0], max_hp[0], hpri[0], A, R)
         
+        G[0] = sample_factor(tau[it], cholLU, Hy[0], G[0].shape)
+
         hyper_K[it+1, 1], invKV, cholLV, eigvalKv, likeli_KV = hyperV_Matern_marginal(
             hyper_K[it, 1], ranges[1], likeli_KV, tau[it], HH[1], Hy[1], min_hp[1], max_hp[1], hpri[1], d_Matern, V_matern_var, N[1], R)
-        
-        G[0] = sample_factor(tau[it], cholLU, Hy[0], G[0].shape)
         
         HH[1], Hy[1] = compute_factor_term(G[0], mask_matrix[1], Y_train[1], N[1])
         LambdaV = (tau[it] * HH[1] + invKV).toarray()
