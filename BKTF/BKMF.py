@@ -216,7 +216,7 @@ def run_BKMF(I, A, missing_rate, U_gra_scale, V_matern_scale, V_matern_var, rang
     start = time.time()
     G, G_save, hyper_K, tau, mae, rmse, Y_est_ = BKMF(
         I, A, mask_matrix, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, d_Matern, a0, b0, tau0, R, burn_iter, pos_iter, start)
-    return G, G_save, hyper_K, tau, mae, rmse, Y_est_
+    return G, G_save, hyper_K, tau, mae, rmse, Y_est_, mask_matrix, mask_test
 
 
 if __name__ == '__main__':
@@ -234,8 +234,8 @@ if __name__ == '__main__':
     b0 = 1e-6
     tau0 = 1e-2
     R = 10
-    burn_iter = 600
-    pos_iter = 400
+    burn_iter = 200
+    pos_iter = 100
 
     """Test BKMF on Seattle traffic speed; data size: 323 locations × 720 time points (24 hours × 30 days; one time point per hour)"""
     seedr = 6
@@ -243,5 +243,5 @@ if __name__ == '__main__':
     A = loadmat('../data/traffic/seattle/seattle_adj.mat')['A']
     I = loadmat('../data/traffic/seattle/sedata_amonth_matrix.mat')['data_matrix']
     missing_rate = 0.5 # 50% random missing (RM)
-    G, G_save, hyper_K, tau, mae, rmse, Y_est_ = run_BKMF(
+    G, G_save, hyper_K, tau, mae, rmse, Y_est_, mask_matrix, mask_test = run_BKMF(
         I, A, missing_rate, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, d_Matern, a0, b0, tau0, R, burn_iter, pos_iter)
