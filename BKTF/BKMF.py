@@ -234,8 +234,8 @@ if __name__ == '__main__':
     b0 = 1e-6
     tau0 = 1e-2
     R = 10
-    burn_iter = 2
-    pos_iter = 2
+    burn_iter = 600
+    pos_iter = 400
 
     """Test BKMF on Seattle traffic speed; data size: 323 locations × 720 time points (24 hours × 30 days; one time point per hour)"""
     seedr = 6
