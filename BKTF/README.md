@@ -5,7 +5,7 @@
 <em>Trace plots and probability distributions of learned kernel hyperparameters for SeData imputation.</em>
 </p>
 
-## Key contribution
+## Key
 - Place GP priors on columns of the latent factor matrices to encode spatial/temporal correlations.
 - Develop a fully Bayesian (MCMC) model, where the kernel hyperparameters are sampled from the marginal posterior via slice sampling.
 
