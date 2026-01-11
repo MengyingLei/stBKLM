@@ -1,6 +1,8 @@
 import numpy as np
 from scipy import sparse
 from scipy.linalg import cholesky, solve_triangular
+from scipy.io import loadmat
+import time
 
 def cov_matern(d, loghyper, x):
     ell = np.exp(loghyper[0])
@@ -119,7 +121,7 @@ def compute_mae(Y, Y_est, mask_test):
 def compute_rmse(Y, Y_est, mask_test):
     return np.sqrt((np.linalg.norm((Y - Y_est) * mask_test, ord="fro")**2) / np.sum(mask_test == 1))
 
-def BKMF(I, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, A, d_Matern, a0, b0, R, burn_iter, pos_iter, start):
+def BKMF(I, A, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, d_Matern, a0, b0, tau0, R, burn_iter, pos_iter, start):
     N = np.array(I.shape)
     D = I.ndim
     num_obser = np.sum(Omega)
@@ -150,7 +152,7 @@ def BKMF(I, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges,
         HH[d], Hy[d] = compute_factor_term(G[1-d], mask_matrix[d], Y_train[d], N[d])
     
     tau = np.zeros(max_iter + 1)
-    tau[0] = 1e-2
+    tau[0] = tau0
     cholLu, invKU, cholLU, likeli_KU = compute_likeli_KU(tau[0], invKu, HH[0], Hy[0], R)
     eigvalKv, invKV, cholLV, likeli_KV = compute_likeli_KV(tau[0], Kv, HH[1], Hy[1], R)
     
@@ -201,20 +203,23 @@ def BKMF(I, Omega, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges,
         
     return G, G_save, hyper_K, tau, mae, rmse, Y_est_sum2/pos_iter + np.mean(train_matrix)
 
-
-def BKMF_sedata():
-    seedr = 6
-    np.random.seed(seedr)
-    A = loadmat('../data/traffic/seattle/seattle_adj.mat')['A']
-    I = loadmat('../data/traffic/seattle/sedata_amonth_matrix.mat')['data_matrix']
-    N = I.shape
-    Omega_raw = (I != 0).astype(np.int8)
-    
-    missing_rate = 0.5 # Random missing (RM)
+def generate_missing_RM(missing_rate, N, Omega_raw):
     mask_matrix = (np.round(np.random.rand(N[0], N[1]) + 0.5 - missing_rate)).astype(np.int8)
     mask_matrix = mask_matrix & Omega_raw
     mask_test = (1 - mask_matrix) & Omega_raw
-    
+    return mask_matrix, mask_test
+
+def run_BKMF(I, A, missing_rate, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, d_Matern, a0, b0, tau0, R, burn_iter, pos_iter):
+    N = I.shape
+    Omega_raw = (I != 0).astype(np.int8)
+    mask_matrix, mask_test = generate_missing_RM(missing_rate, N, Omega_raw)
+    start = time.time()
+    G, G_save, hyper_K, tau, mae, rmse, Y_est_ = BKMF(
+        I, A, mask_matrix, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, d_Matern, a0, b0, tau0, R, burn_iter, pos_iter, start)
+    return G, G_save, hyper_K, tau, mae, rmse, Y_est_
+
+
+if __name__ == '__main__':
     U_gra_scale = 1
     V_matern_scale = 1
     V_matern_var = 1
@@ -227,17 +232,16 @@ def BKMF_sedata():
     d_Matern = 3
     a0 = 1e-6
     b0 = 1e-6
+    tau0 = 1e-2
     R = 10
-    burn_iter = 600
-    pos_iter = 400
-    
-    start = time.time()
-    G, G_save, hyper_K, tau, mae, rmse, Y_est_ = BKMF(
-        I, mask_matrix, mask_test, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, A, d_Matern, a0, b0, R, burn_iter, pos_iter, start)
-    
-    return G, G_save, hyper_K, tau, mae, rmse, Y_est_
+    burn_iter = 2
+    pos_iter = 2
 
-from scipy.io import loadmat
-import time
-if __name__ == '__main__':
-    G, G_save, hyper_K, tau, mae, rmse, Y_est_ = BKMF_sedata()
+    """Test BKMF on Seattle traffic speed; data size: 323 locations × 720 time points (24 hours × 30 days; one time point per hour)"""
+    seedr = 6
+    np.random.seed(seedr)
+    A = loadmat('../data/traffic/seattle/seattle_adj.mat')['A']
+    I = loadmat('../data/traffic/seattle/sedata_amonth_matrix.mat')['data_matrix']
+    missing_rate = 0.5 # 50% random missing (RM)
+    G, G_save, hyper_K, tau, mae, rmse, Y_est_ = run_BKMF(
+        I, A, missing_rate, U_gra_scale, V_matern_scale, V_matern_var, ranges, min_hp, max_hp, hpri, d_Matern, a0, b0, tau0, R, burn_iter, pos_iter)
