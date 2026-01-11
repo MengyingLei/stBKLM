@@ -11,10 +11,10 @@
 
 ## Code
 **Script:**
-- `BKMF.py`: run BKMF on Seattle traffic speed data for one month (323 locations, 720 time points = 24 per day × 30 days).
+- [`BKMF.py`](./BKMF.py): run BKMF on Seattle traffic speed data for one month (323 locations, 720 time points = 24 per day × 30 days).
 
 **Notebook:**
-- `BKMF.ipynb`: demonstrate BKMF on the Seattle traffic speed data.
+- [`BKMF.ipynb`](./BKMF.ipynb): demonstrate BKMF on the Seattle traffic speed data.
 
 ## Citation
 **bibtex**
